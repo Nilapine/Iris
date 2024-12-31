@@ -13,6 +13,25 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .stTabs {{
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px;
+        }}
+        .stTab {{
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }}
+        .stTab:hover {{
+            background-color: rgba(0, 0, 0, 0.1);
+        }}
+        .stTabSelected {{
+            background-color: #4CAF50;
+            color: white;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -34,14 +53,21 @@ Tabs = {
 # Membuat Sidebar
 st.sidebar.title("Navigasi")
 
-# Membuat Radio Option
-page = st.sidebar.radio("Pages", list(Tabs.keys()))
-
 # Load Dataset
 df, x, y = load_data()
 
+# Fungsi untuk menampilkan tabs horizontal
+def display_tabs():
+    tabs = list(Tabs.keys())
+    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
+    
+    return selected_tab
+
+# Display tabs horizontally at the top
+selected_tab = display_tabs()
+
 # Kondisi Call App Function
-if page in ["Prediction", "Visualisation"]:
-    Tabs[page].app(df, x, y)
+if selected_tab in ["Prediction", "Visualisation"]:
+    Tabs[selected_tab].app(df, x, y)
 else:
-    Tabs[page].app(df, x, y)  # type: ignore
+    Tabs[selected_tab].app(df, x, y)  # type: ignore
