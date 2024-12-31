@@ -17,6 +17,7 @@ def set_background_image(image_url):
             display: flex;
             justify-content: center;  /* Menyelaraskan tab di tengah */
             padding: 10px;
+            border-bottom: 2px solid #ddd;  /* Menambahkan garis bawah */
         }}
         .stTab {{
             padding: 10px 20px;
@@ -24,6 +25,7 @@ def set_background_image(image_url):
             border: 2px solid transparent;
             border-radius: 5px;
             transition: background-color 0.3s;
+            background-color: #f4f4f4;  /* Warna latar belakang tab */
         }}
         .stTab:hover {{
             background-color: rgba(0, 0, 0, 0.1);
@@ -31,6 +33,7 @@ def set_background_image(image_url):
         .stTabSelected {{
             background-color: #4CAF50;
             color: white;
+            border-color: #4CAF50;  /* Menambahkan border saat tab terpilih */
         }}
         </style>
         """,
@@ -50,16 +53,20 @@ Tabs = {
     "Visualisation": visualise,
 }
 
-# Membuat Sidebar
-st.sidebar.title("Navigasi")
-
 # Load Dataset
 df, x, y = load_data()
 
 # Fungsi untuk menampilkan tabs horizontal
 def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
+    selected_tab = st.radio(
+        " ", 
+        tabs, 
+        index=0, 
+        horizontal=True, 
+        key="tab_selector",
+        format_func=lambda x: x  # Menampilkan hanya nama tab, tanpa ikon atau deskripsi lainnya
+    )
     
     return selected_tab
 
