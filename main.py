@@ -21,14 +21,14 @@ def set_background_image(image_url):
         .sidebar-button {{
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 10px;
             background-color: #f4f4f4;
             border: none;
             border-radius: 5px;
-            text-align: left;
+            text-align: center;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
         }}
@@ -73,6 +73,7 @@ def display_sidebar_tabs():
         else:
             button_class = "sidebar-button"
 
+        # Create a clickable button for each tab in the sidebar
         if st.sidebar.button(tab, key=f"tab_{tab}"):
             st.session_state.selected_tab = tab
             selected_tab = tab
@@ -81,7 +82,7 @@ def display_sidebar_tabs():
 
     return selected_tab
 
-# Display tabs di sidebar sebagai tombol
+# Display tabs di sidebar sebagai tombol panjang
 selected_tab = display_sidebar_tabs()
 
 # Kondisi Call App Function
