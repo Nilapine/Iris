@@ -15,7 +15,7 @@ def set_background_image(image_url):
         }}
         .stTabs {{
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
             padding: 10px;
         }}
         .stTab {{
