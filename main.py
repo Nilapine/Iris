@@ -19,12 +19,10 @@ def set_background_image(image_url):
             padding: 10px;
         }}
         .stTab {{
-            padding: 10px 20px;
             cursor: pointer;
             border: 2px solid transparent;
             border-radius: 5px;
             transition: background-color 0.3s;
-            margin: 0 10px;
         }}
         .stTab:hover {{
             background-color: rgba(0, 0, 0, 0.1);
