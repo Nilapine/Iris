@@ -13,25 +13,6 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .stTabs {{
-            display: flex;
-            justify-content: center;  /* Menyelaraskan tab di tengah */
-            padding: 10px;
-        }}
-        .stTab {{
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }}
-        .stTab:hover {{
-            background-color: rgba(0, 0, 0, 0.1);
-        }}
-        .stTabSelected {{
-            background-color: #4CAF50;
-            color: white;
-        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -53,15 +34,28 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal
-def display_tabs():
+# Fungsi untuk menampilkan tabs horizontal dengan kontenerisasi def display_tabs_with_columns():
     tabs = list(Tabs.keys())
-    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
-    
+    selected_tab = None
+
+    # Kontainer untuk tab
+    container = st.container()
+    with container:
+        cols = st.columns(5)  # Membagi area menjadi 5 kolom
+
+        for i, tab_name in enumerate(tabs):
+            if i < len(cols):
+                if cols[i].button(tab_name):
+                    selected_tab = tab_name
+
+    # Mengatur tab pertama sebagai default jika belum dipilih
+    if not selected_tab:
+        selected_tab = tabs[0]
+
     return selected_tab
 
-# Display tabs horizontally at the top
-selected_tab = display_tabs()
+# Tampilkan tabs horizontal di atas
+selected_tab = display_tabs_with_columns()
 
 # Kondisi Call App Function
 if selected_tab in ["Prediction", "Visualisation"]:
