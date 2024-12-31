@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 from web_functions import load_data
 from Tabs import home, predict, visualise
 
@@ -31,17 +32,23 @@ Tabs = {
     "Visualisation": visualise,
 }
 
-# Membuat Sidebar
-st.sidebar.title("Navigasi")
-
-# Membuat Radio Option
-page = st.sidebar.radio("Pages", list(Tabs.keys()))
+# Membuat Menu Tab Horizontal
+selected_page = option_menu(
+    menu_title=None,  # Judul menu tidak diperlukan untuk tab horizontal
+    options=list(Tabs.keys()),  # Nama tab
+    icons=["house", "bar-chart", "graph-up"],  # Ikon opsional
+    menu_icon="menu-up",  # Ikon untuk menu secara keseluruhan
+    default_index=0,  # Tab default
+    orientation="horizontal",  # Orientasi horizontal
+    styles={
+        "container": {"padding": "0!important", "background-color": "#f9f9f9"},
+        "nav-link": {"font-size": "16px", "text-align": "center", "margin": "0px"},
+        "nav-link-selected": {"background-color": "#007bff"},
+    },
+)
 
 # Load Dataset
 df, x, y = load_data()
 
 # Kondisi Call App Function
-if page in ["Prediction", "Visualisation"]:
-    Tabs[page].app(df, x, y)
-else:
-    Tabs[page].app(df, x, y)  # type: ignore
+Tabs[selected_page].app(df, x, y)  # type: ignore
