@@ -13,26 +13,22 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .tab-container {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }}
-        .tab {{
-            padding: 10px 20px;
+        .sidebar-tab {{
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
             background-color: #f4f4f4;
             border: 1px solid #ccc;
             border-radius: 5px;
-            cursor: pointer;
             text-align: center;
+            font-weight: bold;
+            cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
         }}
-        .tab:hover {{
+        .sidebar-tab:hover {{
             background-color: #ddd;
         }}
-        .tab-selected {{
+        .sidebar-tab-selected {{
             background-color: #4CAF50;
             color: white;
             border-color: #4CAF50;
@@ -58,29 +54,27 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs dengan gaya kotakan
-def display_tabs():
+# Fungsi untuk menampilkan tabs di sidebar dengan gaya kotakan panjang
+def display_sidebar_tabs():
     tabs = list(Tabs.keys())
     selected_tab = st.session_state.get("selected_tab", tabs[0])
 
-    st.markdown('<div class="tab-container">', unsafe_allow_html=True)
     for tab in tabs:
         if tab == selected_tab:
-            button_class = "tab tab-selected"
+            button_class = "sidebar-tab sidebar-tab-selected"
         else:
-            button_class = "tab"
+            button_class = "sidebar-tab"
 
-        if st.button(tab, key=f"tab_{tab}"):
+        if st.sidebar.button(tab, key=f"tab_{tab}"):
             st.session_state.selected_tab = tab
             selected_tab = tab
 
-        st.markdown(f'<div class="{button_class}">{tab}</div>', unsafe_allow_html=True)
+        st.sidebar.markdown(f'<div class="{button_class}">{tab}</div>', unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
     return selected_tab
 
-# Display tabs di area utama dengan gaya kotakan
-selected_tab = display_tabs()
+# Display tabs di sidebar dengan gaya kotakan panjang
+selected_tab = display_sidebar_tabs()
 
 # Kondisi Call App Function
 if selected_tab in Tabs:
