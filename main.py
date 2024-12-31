@@ -13,9 +13,16 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .stSidebar {{
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+        }}
         .stTabs {{
             display: flex;
-            justify-content: center;
+            flex-direction: column;  /* Menyusun tab secara vertikal seperti sidebar */
             padding: 10px;
         }}
         .stTab {{
@@ -56,14 +63,14 @@ st.sidebar.title("Navigasi")
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal
+# Fungsi untuk menampilkan tabs di sidebar
 def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
+    selected_tab = st.sidebar.radio("Pilih Tab", tabs, index=0, key="tab_selector")
     
     return selected_tab
 
-# Display tabs horizontally at the top
+# Display tabs in sidebar
 selected_tab = display_tabs()
 
 # Kondisi Call App Function
