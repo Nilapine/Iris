@@ -13,6 +13,28 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .tab-container {{
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }}
+        .tab {{
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }}
+        .tab:hover {{
+            background-color: #dcdcdc;
+        }}
+        .tab-selected {{
+            background-color: #4CAF50;
+            color: white;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -34,30 +56,22 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal dengan kontenerisasi tanpa tombol
+# Fungsi untuk menampilkan tabs horizontal dengan navigasi interaktif tanpa tombol
 def display_tabs_with_columns():
     tabs = list(Tabs.keys())
-    selected_tab = tabs[0]  # Default tab adalah yang pertama
+    selected_tab = st.session_state.get("selected_tab", tabs[0])  # Default tab adalah yang pertama
 
     # Kontainer untuk tab
-    container = st.container()
-    with container:
-        cols = st.columns(5)  # Membagi area menjadi 5 kolom
+    st.markdown("<div class='tab-container'>", unsafe_allow_html=True)
+    for tab_name in tabs:
+        css_class = "tab tab-selected" if tab_name == selected_tab else "tab"
+        tab_html = f"<div class='{css_class}' onclick="window.location.href='#{tab_name}'">{tab_name}</div>"
+        st.markdown(tab_html, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-        for i, tab_name in enumerate(tabs):
-            if i < len(cols):
-                with cols[i]:
-                    st.markdown(
-                        f"""
-                        <div style='text-align: center; font-size: 18px; font-weight: bold; cursor: pointer;'>
-                            {tab_name}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-
-    # Pilih tab berdasarkan input dari pengguna
-    selected_tab = st.radio("", tabs, index=0, horizontal=True, key="tab_selector")
+    # Memperbarui tab yang dipilih berdasarkan hash URL
+    selected_tab = st.experimental_get_query_params().get("tab", [tabs[0]])[0]
+    st.experimental_set_query_params(tab=selected_tab)
 
     return selected_tab
 
