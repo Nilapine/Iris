@@ -16,22 +16,20 @@ def set_background_image(image_url):
         .tabs-container {{
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 40px;
             padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
         }}
-        .stButton {{
-            font-size: 18px;
-            padding: 10px 20px;
+        .tab {{
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: color 0.3s;
         }}
-        .stButton:hover {{
-            background-color: rgba(0, 0, 0, 0.1);
+        .tab:hover {{
+            color: #4CAF50;
         }}
-        .stButtonSelected {{
-            background-color: #4CAF50;
-            color: white;
+        .tab-selected {{
+            color: #4CAF50;
         }}
         </style>
         """,
@@ -57,15 +55,20 @@ st.sidebar.title("Navigasi")
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan menu tabs di tengah
+# Fungsi untuk menampilkan tabs horizontal di bagian atas
 def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = None
+    selected_tab = st.session_state.get('selected_tab', "Home")  # Default to "Home"
 
-    # Create a button for each tab
+    # Display tabs as text, and change the selected tab when clicked
+    tab_html = ""
     for tab in tabs:
-        if st.button(tab, key=tab):
-            selected_tab = tab
+        if tab == selected_tab:
+            tab_html += f'<span class="tab tab-selected" onclick="window.location.reload();">{tab}</span>'
+        else:
+            tab_html += f'<span class="tab" onclick="window.location.reload();">{tab}</span>'
+
+    st.markdown(f'<div class="tabs-container">{tab_html}</div>', unsafe_allow_html=True)
 
     return selected_tab
 
@@ -73,7 +76,4 @@ def display_tabs():
 selected_tab = display_tabs()
 
 # Kondisi Call App Function
-if selected_tab:
-    Tabs[selected_tab].app(df, x, y)
-else:
-    Tabs["Home"].app(df, x, y)  # Default to Home tab
+Tabs[selected_tab].app(df, x, y)
