@@ -13,30 +13,31 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .sidebar {{
-            background-image: url("{image_url}");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: white;  /* Optional: To make text more visible on the image */
+        .stTabs {{
+            display: flex;
+            justify-content: center;  /* Menyelaraskan tab di tengah */
+            padding: 10px;
         }}
-        .sidebar-title {{
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }}
-        .sidebar select {{
+        .stTab {{
+            padding: 10px 20px;
             cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }}
-        .sidebar-button {{
-            cursor: pointer;
+        .stTab:hover {{
+            background-color: rgba(0, 0, 0, 0.1);
+        }}
+        .stTabSelected {{
+            background-color: #4CAF50;
+            color: white;
         }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# URL gambar dari GitHub (replace this with your own image URL)
+# URL gambar dari GitHub
 background_image_url = "https://github.com/Nilapine/Iris/blob/main/background.png?raw=true"
 
 # Set latar belakang
@@ -52,19 +53,18 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs di sidebar dengan selectbox
-def display_sidebar_tabs():
-    st.sidebar.markdown('<div class="sidebar-title">Menu</div>', unsafe_allow_html=True)
+# Fungsi untuk menampilkan tabs horizontal
+def display_tabs():
     tabs = list(Tabs.keys())
+    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
     
-    # Using a selectbox for tab selection
-    selected_tab = st.sidebar.selectbox("Choose a tab", tabs, key="selected_tab")
-
     return selected_tab
 
-# Display tabs di sidebar dengan selectbox
-selected_tab = display_sidebar_tabs()
+# Display tabs horizontally at the top
+selected_tab = display_tabs()
 
 # Kondisi Call App Function
-if selected_tab in Tabs:
+if selected_tab in ["Prediction", "Visualisation"]:
     Tabs[selected_tab].app(df, x, y)
+else:
+    Tabs[selected_tab].app(df, x, y)  # type: ignore
