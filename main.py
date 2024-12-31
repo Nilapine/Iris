@@ -50,8 +50,6 @@ Tabs = {
     "Visualisation": visualise,
 }
 
-# Membuat Sidebar
-st.sidebar.title("Navigasi")
 
 # Load Dataset
 df, x, y = load_data()
