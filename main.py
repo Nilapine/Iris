@@ -65,7 +65,7 @@ def display_tabs_with_columns():
     st.markdown("<div class='tab-container'>", unsafe_allow_html=True)
     for tab_name in tabs:
         css_class = "tab tab-selected" if tab_name == selected_tab else "tab"
-        tab_html = f"<div class='{css_class}' onclick="window.location.href='#{tab_name}'">{tab_name}</div>"
+        tab_html = f"<div class='{css_class}' onclick="window.location.href='#{predict}'">{visualise}</div>"
         st.markdown(tab_html, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
