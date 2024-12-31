@@ -64,9 +64,9 @@ def display_tabs():
     tab_html = ""
     for tab in tabs:
         if tab == selected_tab:
-            tab_html += f'<span class="tab tab-selected" onclick="window.location.reload();">{tab}</span>'
+            tab_html += f'<span class="tab tab-selected" onclick="window.parent.postMessage({{"tab":"{tab}"}}, "*")">{tab}</span>'
         else:
-            tab_html += f'<span class="tab" onclick="window.location.reload();">{tab}</span>'
+            tab_html += f'<span class="tab" onclick="window.parent.postMessage({{"tab":"{tab}"}}, "*")">{tab}</span>'
 
     st.markdown(f'<div class="tabs-container">{tab_html}</div>', unsafe_allow_html=True)
 
@@ -76,4 +76,5 @@ def display_tabs():
 selected_tab = display_tabs()
 
 # Kondisi Call App Function
-Tabs[selected_tab].app(df, x, y)
+if selected_tab in Tabs:
+    Tabs[selected_tab].app(df, x, y)
