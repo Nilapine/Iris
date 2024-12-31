@@ -13,6 +13,13 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .sidebar {{
+            background-image: url("{image_url}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;  /* Optional: To make text more visible on the image */
+        }}
         .sidebar-title {{
             font-size: 20px;
             font-weight: bold;
@@ -29,7 +36,7 @@ def set_background_image(image_url):
         unsafe_allow_html=True
     )
 
-# URL gambar dari GitHub
+# URL gambar dari GitHub (replace this with your own image URL)
 background_image_url = "https://github.com/Nilapine/Iris/blob/main/background.png?raw=true"
 
 # Set latar belakang
