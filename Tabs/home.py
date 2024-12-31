@@ -23,6 +23,9 @@ def app(df, x, y):
         st.image("https://upload.wikimedia.org/wikipedia/commons/9/9f/Iris_virginica.jpg", caption="Iris Virginica", width=150)
 
     # Menampilkan Data
+    st.write("""
+    Dataset yang digunakan dalam prediksi bunga iris :
+    """)
     df.drop('Id', axis=1, inplace=True)
     st.write(df)
 
