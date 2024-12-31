@@ -34,7 +34,8 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal dengan kontenerisasi def display_tabs_with_columns():
+# Fungsi untuk menampilkan tabs horizontal dengan kontenerisasi
+def display_tabs_with_columns():
     tabs = list(Tabs.keys())
     selected_tab = None
 
