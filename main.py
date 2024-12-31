@@ -18,6 +18,12 @@ def set_background_image(image_url):
             font-weight: bold;
             margin-bottom: 20px;
         }}
+        .sidebar select {{
+            cursor: pointer;
+        }}
+        .sidebar-button {{
+            cursor: pointer;
+        }}
         </style>
         """,
         unsafe_allow_html=True
