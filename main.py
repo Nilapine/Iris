@@ -19,6 +19,7 @@ def set_background_image(image_url):
             padding: 10px;
         }}
         .stTab {{
+            padding: 10px 20px;
             cursor: pointer;
             border: 2px solid transparent;
             border-radius: 5px;
@@ -55,31 +56,17 @@ st.sidebar.title("Navigasi")
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal dan berada di tengah
+# Fungsi untuk menampilkan tabs horizontal
 def display_tabs():
     tabs = list(Tabs.keys())
-    tab_html = f"""
-    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    """
+    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
     
-    for tab in tabs:
-        tab_html += f"""
-        <div style="padding: 10px 20px; cursor: pointer; border: 2px solid transparent; border-radius: 5px; margin: 0 10px;" 
-             onclick="window.location.href = '/{tab.lower()}'">
-            {tab}
-        </div>
-        """
-        
-    tab_html += "</div>"
-
-    st.markdown(tab_html, unsafe_allow_html=True)
+    return selected_tab
 
 # Display tabs horizontally at the top
-display_tabs()
+selected_tab = display_tabs()
 
-# Logika pemanggilan fungsi aplikasi berdasarkan tab yang dipilih
-selected_tab = st.session_state.get("selected_tab", "Home")
-
+# Kondisi Call App Function
 if selected_tab in ["Prediction", "Visualisation"]:
     Tabs[selected_tab].app(df, x, y)
 else:
