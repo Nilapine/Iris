@@ -14,14 +14,16 @@ def set_background_image(image_url):
             background-attachment: fixed;
         }}
         .sidebar-tab {{
+            display: block;
             width: 100%;
             padding: 15px;
             margin-bottom: 10px;
             background-color: #f4f4f4;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
-            text-align: center;
+            text-align: left;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
         }}
@@ -31,7 +33,12 @@ def set_background_image(image_url):
         .sidebar-tab-selected {{
             background-color: #4CAF50;
             color: white;
-            border-color: #4CAF50;
+            font-weight: bold;
+        }}
+        .sidebar-title {{
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }}
         </style>
         """,
@@ -56,6 +63,7 @@ df, x, y = load_data()
 
 # Fungsi untuk menampilkan tabs di sidebar dengan gaya kotakan panjang
 def display_sidebar_tabs():
+    st.sidebar.markdown('<div class="sidebar-title">Menu</div>', unsafe_allow_html=True)
     tabs = list(Tabs.keys())
     selected_tab = st.session_state.get("selected_tab", tabs[0])
 
@@ -69,7 +77,7 @@ def display_sidebar_tabs():
             st.session_state.selected_tab = tab
             selected_tab = tab
 
-        st.sidebar.markdown(f'<div class="{button_class}">{tab}</div>', unsafe_allow_html=True)
+        st.sidebar.markdown(f'<button class="{button_class}" onclick="window.location.reload()">{tab}</button>', unsafe_allow_html=True)
 
     return selected_tab
 
