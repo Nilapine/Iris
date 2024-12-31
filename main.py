@@ -13,27 +13,26 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .stTabs {{
-            display: flex;
-            justify-content: center;  /* Menyelaraskan tab di tengah */
-            padding: 10px;
-            border-bottom: 2px solid #ddd;  /* Menambahkan garis bawah */
+        .stRadio > div {{
+            text-align: center;  /* Menyelaraskan radio button di tengah */
         }}
-        .stTab {{
-            padding: 10px 20px;
+        .stRadio label {{
+            display: inline-block;
+            margin: 0 10px;  /* Jarak antar tab */
             cursor: pointer;
-            border: 2px solid transparent;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
             border-radius: 5px;
+            border: 2px solid transparent;
             transition: background-color 0.3s;
-            background-color: #f4f4f4;  /* Warna latar belakang tab */
         }}
-        .stTab:hover {{
+        .stRadio label:hover {{
             background-color: rgba(0, 0, 0, 0.1);
         }}
-        .stTabSelected {{
+        .stRadio input[type="radio"]:checked + label {{
             background-color: #4CAF50;
             color: white;
-            border-color: #4CAF50;  /* Menambahkan border saat tab terpilih */
+            border-color: #4CAF50;
         }}
         </style>
         """,
@@ -60,7 +59,7 @@ df, x, y = load_data()
 def display_tabs():
     tabs = list(Tabs.keys())
     selected_tab = st.radio(
-        " ", 
+        "",  # Kosongkan label agar tidak ada teks di depan radio
         tabs, 
         index=0, 
         horizontal=True, 
