@@ -31,54 +31,17 @@ Tabs = {
     "Visualisation": visualise,
 }
 
-# Membuat Menu Tab Horizontal
-st.markdown(
-    """
-    <style>
-    .tabs-container {{
-        display: flex;
-        justify-content: space-around;
-        background-color: #f9f9f9;
-        padding: 10px;
-        border-radius: 5px;
-    }}
-    .tab {{
-        font-size: 16px;
-        font-weight: bold;
-        color: #007bff;
-        cursor: pointer;
-        padding: 10px 20px;
-        text-decoration: none;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }}
-    .tab:hover {{
-        background-color: #007bff;
-        color: white;
-    }}
-    .active-tab {{
-        background-color: #007bff;
-        color: white;
-    }}
-    </style>
-    <div class="tabs-container">
-        <a href="?page=Home" class="tab {active_home}">Home</a>
-        <a href="?page=Prediction" class="tab {active_prediction}">Prediction</a>
-        <a href="?page=Visualisation" class="tab {active_visualisation}">Visualisation</a>
-    </div>
-    """.format(
-        active_home="active-tab" if st.experimental_get_query_params().get("page", ["Home"])[0] == "Home" else "",
-        active_prediction="active-tab" if st.experimental_get_query_params().get("page", [""])[0] == "Prediction" else "",
-        active_visualisation="active-tab" if st.experimental_get_query_params().get("page", [""])[0] == "Visualisation" else ""
-    ),
-    unsafe_allow_html=True,
-)
+# Membuat Sidebar
+st.sidebar.title("Navigasi")
 
-# Menangkap Halaman yang Dipilih
-selected_page = st.experimental_get_query_params().get("page", ["Home"])[0]
+# Membuat Radio Option
+page = st.sidebar.radio("Pages", list(Tabs.keys()))
 
 # Load Dataset
 df, x, y = load_data()
 
-# Memanggil Fungsi Berdasarkan Tab yang Dipilih
-Tabs[selected_page].app(df, x, y)  # type: ignore
+# Kondisi Call App Function
+if page in ["Prediction", "Visualisation"]:
+    Tabs[page].app(df, x, y)
+else:
+    Tabs[page].app(df, x, y)  # type: ignore
