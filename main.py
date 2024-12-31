@@ -13,25 +13,6 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .stTabs {{
-            display: flex;
-            justify-content: center;  /* Menyelaraskan tab di tengah */
-            padding: 10px;
-        }}
-        .stTab {{
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }}
-        .stTab:hover {{
-            background-color: rgba(0, 0, 0, 0.1);
-        }}
-        .stTabSelected {{
-            background-color: #4CAF50;
-            color: white;
-        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -53,18 +34,16 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal
-def display_tabs():
+# Fungsi untuk menampilkan tabs di sidebar
+def display_sidebar_tabs():
+    st.sidebar.title("Navigation")
     tabs = list(Tabs.keys())
-    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
-    
+    selected_tab = st.sidebar.radio("Go to:", tabs, index=0, key="tab_selector")
     return selected_tab
 
-# Display tabs horizontally at the top
-selected_tab = display_tabs()
+# Display tabs di sidebar
+selected_tab = display_sidebar_tabs()
 
 # Kondisi Call App Function
-if selected_tab in ["Prediction", "Visualisation"]:
+if selected_tab in Tabs:
     Tabs[selected_tab].app(df, x, y)
-else:
-    Tabs[selected_tab].app(df, x, y)  # type: ignore
