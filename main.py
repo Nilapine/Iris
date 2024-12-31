@@ -13,9 +13,16 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .stHeader {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }}
         .stTabs {{
             display: flex;
-            justify-content: center;  /* Menyelaraskan tab di tengah */
+            justify-content: center;
             padding: 10px;
         }}
         .stTab {{
@@ -32,13 +39,18 @@ def set_background_image(image_url):
             background-color: #4CAF50;
             color: white;
         }}
+        .stLogo {{
+            max-height: 50px;
+            width: auto;
+        }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# URL gambar dari GitHub
+# URL gambar dari GitHub untuk background dan logo
 background_image_url = "https://github.com/Nilapine/Iris/blob/main/background.png?raw=true"
+logo_image_url = "https://github.com/Nilapine/Iris/blob/main/logo.png?raw=true"  # Replace with your logo URL
 
 # Set latar belakang
 set_background_image(background_image_url)
@@ -60,10 +72,22 @@ def display_tabs():
     
     return selected_tab
 
-# Display tabs horizontally at the top
-selected_tab = display_tabs()
+# Display Header with Logo and Tabs
+st.markdown(
+    f"""
+    <div class="stHeader">
+        <img src="{logo_image_url}" class="stLogo" />
+        <div class="stTabs">
+            <div>{display_tabs()}</div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Kondisi Call App Function
+selected_tab = display_tabs()
+
 if selected_tab in ["Prediction", "Visualisation"]:
     Tabs[selected_tab].app(df, x, y)
 else:
