@@ -13,22 +13,23 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .stTabs {{
+        .tabs-container {{
             display: flex;
-            justify-content: space-evenly;
-            padding: 10px;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
         }}
-        .stTab {{
+        .stButton {{
+            font-size: 18px;
             padding: 10px 20px;
             cursor: pointer;
-            border: 2px solid transparent;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }}
-        .stTab:hover {{
+        .stButton:hover {{
             background-color: rgba(0, 0, 0, 0.1);
         }}
-        .stTabSelected {{
+        .stButtonSelected {{
             background-color: #4CAF50;
             color: white;
         }}
@@ -56,18 +57,23 @@ st.sidebar.title("Navigasi")
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal
+# Fungsi untuk menampilkan menu tabs di tengah
 def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
-    
+    selected_tab = None
+
+    # Create a button for each tab
+    for tab in tabs:
+        if st.button(tab, key=tab):
+            selected_tab = tab
+
     return selected_tab
 
-# Display tabs horizontally at the top
+# Display tabs at the top and center them
 selected_tab = display_tabs()
 
 # Kondisi Call App Function
-if selected_tab in ["Prediction", "Visualisation"]:
+if selected_tab:
     Tabs[selected_tab].app(df, x, y)
 else:
-    Tabs[selected_tab].app(df, x, y)  # type: ignore
+    Tabs["Home"].app(df, x, y)  # Default to Home tab
