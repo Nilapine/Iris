@@ -6,25 +6,29 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-from web_functions import train_model_DT,train_model_KNN,train_model_NBC,load_data
+from web_functions import train_model_DT, train_model_KNN, train_model_NBC, load_data
 
 def app(df, x, y):
     warnings.filterwarnings('ignore')
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title("Visualisasi Prediksi Tanaman Iris")
 
-
     # if st.checkbox("Plot Decision Tree"):
-    #     model,score = train_model_DT(x,y)
+    #     model, score = train_model_DT(x, y)
     #     dot_data = tree.export_graphviz(
     #         decision_tree=model, out_file=None, filled=True, rounded=True,
-    #         feature_names=x.columns, class_names=['Iris-setosa','Iris-versicolor','Iris-virginica']
+    #         feature_names=x.columns, class_names=['Iris-setosa', 'Iris-versicolor', 'Iris-virginica']
     #     )
     #     st.graphviz_chart(dot_data)
     # elif st.checkbox("Pairplot"):
     st.title("Pairplot")
-    # s = sns.pairplot(df, hue="Species")
-    st.pyplot(sns.pairplot(df, hue="Species")) # type: ignore
+    
+    # Generate the pairplot
+    pairplot_fig = sns.pairplot(df, hue="Species").fig
+
+    # Display the pairplot in Streamlit
+    st.pyplot(pairplot_fig)
+
     st.subheader("Penjelasan Pair Plot")
     st.markdown("""
     Gambar di atas adalah *pair plot*, yang merupakan visualisasi dari hubungan antar variabel pada dataset *Iris*. Berikut adalah penjelasan lebih lanjut:
@@ -42,7 +46,3 @@ def app(df, x, y):
 
     4. **Klasifikasi visual**: Gambar ini memberikan indikasi seberapa mudah atau sulit spesies bunga dapat diklasifikasikan berdasarkan fitur tertentu. Beberapa pasangan fitur memperlihatkan pemisahan yang lebih jelas antar spesies, sedangkan beberapa pasangan lainnya menunjukkan tumpang tindih yang lebih besar.
     """)
-
-        
-        
-        
