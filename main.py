@@ -13,25 +13,22 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .tab-container {{
+        .stTabs {{
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 20px;
+            justify-content: center;  /* Menyelaraskan tab di tengah */
+            padding: 10px;
         }}
-        .tab {{
+        .stTab {{
             padding: 10px 20px;
-            border-radius: 5px;
-            background-color: #f0f0f0;
             cursor: pointer;
-            text-align: center;
-            font-weight: bold;
+            border: 2px solid transparent;
+            border-radius: 5px;
             transition: background-color 0.3s;
         }}
-        .tab:hover {{
-            background-color: #dcdcdc;
+        .stTab:hover {{
+            background-color: rgba(0, 0, 0, 0.1);
         }}
-        .tab-selected {{
+        .stTabSelected {{
             background-color: #4CAF50;
             color: white;
         }}
@@ -56,27 +53,15 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal dengan navigasi interaktif tanpa tombol
-def display_tabs_with_columns():
+# Fungsi untuk menampilkan tabs horizontal
+def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.session_state.get("selected_tab", tabs[0])  # Default tab adalah yang pertama
-
-    # Kontainer untuk tab
-    st.markdown("<div class='tab-container'>", unsafe_allow_html=True)
-    for tab_name in tabs:
-        css_class = "tab tab-selected" if tab_name == selected_tab else "tab"
-        tab_html = f"<div class='{css_class}' onclick=\"window.location.href='?tab={Prediction}'\">{Visualisation}</div>"
-        st.markdown(tab_html, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # Memperbarui tab yang dipilih berdasarkan parameter URL
-    selected_tab = st.experimental_get_query_params().get("tab", [tabs[0]])[0]
-    st.experimental_set_query_params(tab=selected_tab)
-
+    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
+    
     return selected_tab
 
-# Tampilkan tabs horizontal di atas
-selected_tab = display_tabs_with_columns()
+# Display tabs horizontally at the top
+selected_tab = display_tabs()
 
 # Kondisi Call App Function
 if selected_tab in ["Prediction", "Visualisation"]:
