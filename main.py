@@ -13,6 +13,30 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .tab-container {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }}
+        .tab {{
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }}
+        .tab:hover {{
+            background-color: #ddd;
+        }}
+        .tab-selected {{
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -34,15 +58,29 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs di sidebar
-def display_sidebar_tabs():
-    st.sidebar.title("Navigation")
+# Fungsi untuk menampilkan tabs dengan gaya kotakan
+def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.sidebar.radio("Go to:", tabs, index=0, key="tab_selector")
+    selected_tab = st.session_state.get("selected_tab", tabs[0])
+
+    st.markdown('<div class="tab-container">', unsafe_allow_html=True)
+    for tab in tabs:
+        if tab == selected_tab:
+            button_class = "tab tab-selected"
+        else:
+            button_class = "tab"
+
+        if st.button(tab, key=f"tab_{tab}"):
+            st.session_state.selected_tab = tab
+            selected_tab = tab
+
+        st.markdown(f'<div class="{button_class}">{tab}</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
     return selected_tab
 
-# Display tabs di sidebar
-selected_tab = display_sidebar_tabs()
+# Display tabs di area utama dengan gaya kotakan
+selected_tab = display_tabs()
 
 # Kondisi Call App Function
 if selected_tab in Tabs:
