@@ -13,10 +13,6 @@ def app(df, x, y):
     Setiap spesies memiliki karakteristik unik yang membuatnya menarik untuk dipelajari.
     """)
 
-    # Menampilkan Data
-    df.drop('Id', axis=1, inplace=True)
-    st.write(df)
-
     # Menambahkan Gambar Iris Berjejeran
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -25,3 +21,9 @@ def app(df, x, y):
         st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAhHAQgQSBvRdWjZS3rp0wVvLum8zgHC0djx-rGJupnYYyKaGkMvGoQNTa3GV4FjBe8d0&usqp=CAU", caption="Iris Versicolor", width=150)
     with col3:
         st.image("https://upload.wikimedia.org/wikipedia/commons/9/9f/Iris_virginica.jpg", caption="Iris Virginica", width=150)
+
+    # Menampilkan Data
+    df.drop('Id', axis=1, inplace=True)
+    st.write(df)
+
+    
