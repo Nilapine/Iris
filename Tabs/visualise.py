@@ -10,7 +10,6 @@ from web_functions import train_model_DT, train_model_KNN, train_model_NBC, load
 
 def app(df, x, y):
     warnings.filterwarnings('ignore')
-    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title("Visualisasi Prediksi Tanaman Iris")
 
     # if st.checkbox("Plot Decision Tree"):
