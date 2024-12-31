@@ -13,23 +13,24 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
-        .tabs-container {{
+        .stTabs {{
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px;
-            font-size: 24px;
-            font-weight: bold;
+            justify-content: space-evenly;
+            padding: 10px;
         }}
-        .tab {{
+        .stTab {{
+            padding: 10px 20px;
             cursor: pointer;
-            transition: color 0.3s;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }}
-        .tab:hover {{
-            color: #4CAF50;
+        .stTab:hover {{
+            background-color: rgba(0, 0, 0, 0.1);
         }}
-        .tab-selected {{
-            color: #4CAF50;
+        .stTabSelected {{
+            background-color: #4CAF50;
+            color: white;
         }}
         </style>
         """,
@@ -55,26 +56,18 @@ st.sidebar.title("Navigasi")
 # Load Dataset
 df, x, y = load_data()
 
-# Fungsi untuk menampilkan tabs horizontal di bagian atas
+# Fungsi untuk menampilkan tabs horizontal
 def display_tabs():
     tabs = list(Tabs.keys())
-    selected_tab = st.session_state.get('selected_tab', "Home")  # Default to "Home"
-
-    # Display tabs as text, and change the selected tab when clicked
-    tab_html = ""
-    for tab in tabs:
-        if tab == selected_tab:
-            tab_html += f'<span class="tab tab-selected" onclick="window.parent.postMessage({{"tab":"{tab}"}}, "*")">{tab}</span>'
-        else:
-            tab_html += f'<span class="tab" onclick="window.parent.postMessage({{"tab":"{tab}"}}, "*")">{tab}</span>'
-
-    st.markdown(f'<div class="tabs-container">{tab_html}</div>', unsafe_allow_html=True)
-
+    selected_tab = st.radio(" ", tabs, index=0, horizontal=True, key="tab_selector")
+    
     return selected_tab
 
-# Display tabs at the top and center them
+# Display tabs horizontally at the top
 selected_tab = display_tabs()
 
 # Kondisi Call App Function
-if selected_tab in Tabs:
+if selected_tab in ["Prediction", "Visualisation"]:
     Tabs[selected_tab].app(df, x, y)
+else:
+    Tabs[selected_tab].app(df, x, y)  # type: ignore
