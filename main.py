@@ -13,6 +13,28 @@ def set_background_image(image_url):
             background-repeat: no-repeat;
             background-attachment: fixed;
         }}
+        .stTabs {{
+            display: flex;
+            justify-content: center;  /* Menyelaraskan tab di tengah */
+            padding: 10px;
+            border-bottom: 2px solid #ddd;  /* Menambahkan garis bawah */
+        }}
+        .stTab {{
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            background-color: #f4f4f4;  /* Warna latar belakang tab */
+        }}
+        .stTab:hover {{
+            background-color: rgba(0, 0, 0, 0.1);
+        }}
+        .stTabSelected {{
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;  /* Menambahkan border saat tab terpilih */
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -34,39 +56,22 @@ Tabs = {
 # Load Dataset
 df, x, y = load_data()
 
-# Header with logo and menu
-title_container = st.container()
+# Fungsi untuk menampilkan tabs horizontal
+def display_tabs():
+    tabs = list(Tabs.keys())
+    selected_tab = st.radio(
+        " ", 
+        tabs, 
+        index=0, 
+        horizontal=True, 
+        key="tab_selector",
+        format_func=lambda x: x  # Menampilkan hanya nama tab, tanpa ikon atau deskripsi lainnya
+    )
+    
+    return selected_tab
 
-# Add CSS for styling
-st.markdown("""
-    <style>
-        /* Container for logo and menu aligned horizontally */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1px;  /* Space below the header */
-        }
-        .header-logo {
-            margin-right: 1px;  /* Space between logo and menu */
-        }
-        div[role='tablist'] {
-            display: flex;
-            justify-content: center;
-        }
-        div[role='tablist'] > div {
-            margin-right: 50px;  /* Space between individual tabs */
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# Create a container for logo and tabs in one header
-with title_container:
-    st.markdown('<div class="header-container">', unsafe_allow_html=True)
-    # Add the tabs below the image, in the same header section
-    selected_tab = st.tabs(list(Tabs.keys()))
-    st.markdown('</div>', unsafe_allow_html=True)
-    df,x,y = load_data()
+# Display tabs horizontally at the top
+selected_tab = display_tabs()
 
 # Kondisi Call App Function
 if selected_tab in ["Prediction", "Visualisation"]:
